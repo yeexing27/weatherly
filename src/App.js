@@ -1,28 +1,61 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { useState, useEffect } from "react";
+import CurrentWeather from "./components/CurrentWeather";
+import Appbar from "./components/Appbar";
+import { createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/private-theming";
+import "@fontsource/roboto";
+import "@fontsource/merriweather";
+import DailyWeather from "./components/DailyWeather";
+import { getLocation } from "./components/utility";
+import CompareWeather from "./components/CompareWeather";
+import { fetchAPI } from "./components/utility";
+import Footer from "./components/Footer";
 
 const API_key = "325dcc0b72cdfc17143d7d6556c5a967";
-const endpoint = "https://api.openweathermap.org/data/2.5/weather?";
+const endpoint = "https://api.openweathermap.org/data/2.5/";
+
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // loading = true means the DOM will render Loading...
+  const [currentWeather, setCurrentWeather] = useState();
+  const [dailyWeather, setDailyWeather] = useState();
+  const [location, setLocation] = useState("London");
+  const [lat, setLat] = useState("");
+  const [lon, setLon] = useState("");
+  const [loc2, setLoc2] = useState("");
+  const [loc2Cur, setLoc2Cur] = useState();
+  const [loc2Graph, setLoc2Graph] = useState();
+  const [loading2, setLoading2] = useState(true);
 
-  const fetchAPI = async () => {
-    const url = endpoint + "q=London&appid=" + API_key;
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log("This is the response.", data);
+  const theme = createTheme({
+    typography: {
+      fontFamily: "Merriweather, serif",
+      h2: {
+        fontFamily: "Merriweather, serif",
+      },
+    },
+  });
 
-      setLoading(false);
-    } catch (error) {
-      console.log("API Fetching Error.", error);
-    }
-  };
+  getLocation(setLat, setLon);
 
   useEffect(() => {
-    fetchAPI();
-  }, []);
+    fetchAPI(
+      endpoint,
+      location,
+      API_key,
+      setCurrentWeather,
+      setDailyWeather,
+      setLoading,
+      lat,
+      lon
+    );
+
+    if (loc2) {
+      fetchAPI(endpoint, loc2, API_key, setLoc2Cur, setLoc2Graph, setLoading2);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location, lat, lon, loc2]);
 
   if (loading) {
     return (
@@ -33,22 +66,28 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Appbar
+        currentWeather={currentWeather}
+        setLocation={setLocation}
+        location={location}
+        setLat={setLat}
+        setLon={setLon}
+        setLoc2={setLoc2}
+      />
+
+      <CurrentWeather currentWeather={currentWeather} />
+      <DailyWeather dailyWeather={dailyWeather} />
+      {loc2 && (
+        <CompareWeather
+          loc2={loc2}
+          loc2Cur={loc2Cur}
+          loc2Graph={loc2Graph}
+          loading2={loading2}
+        />
+      )}
+      <Footer />
+    </ThemeProvider>
   );
 }
 
