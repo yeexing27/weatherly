@@ -7,10 +7,16 @@ import { ThemeProvider } from "@mui/private-theming";
 import "@fontsource/roboto";
 import "@fontsource/merriweather";
 import DailyWeather from "./components/DailyWeather";
-import { getLocation } from "./components/utility";
+import { getLocation, fetchAPI } from "./components/utility";
 import CompareWeather from "./components/CompareWeather";
-import { fetchAPI } from "./components/utility";
 import Footer from "./components/Footer";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles((theme) => ({
+  loadingCtn: {
+    textAlign: "center",
+  },
+}));
 
 const API_key = "325dcc0b72cdfc17143d7d6556c5a967";
 const endpoint = "https://api.openweathermap.org/data/2.5/";
@@ -26,6 +32,8 @@ function App() {
   const [loc2Cur, setLoc2Cur] = useState();
   const [loc2Graph, setLoc2Graph] = useState();
   const [loading2, setLoading2] = useState(true);
+
+  const classes = useStyles();
 
   const theme = createTheme({
     typography: {
@@ -59,7 +67,7 @@ function App() {
 
   if (loading) {
     return (
-      <main>
+      <main className={classes.loadingCtn}>
         <h1>Loading...</h1>
       </main>
     );

@@ -1,7 +1,6 @@
 import { makeStyles } from "@mui/styles";
 import React from "react";
 import { getDay } from "./utility";
-import CloudQueueIcon from "@mui/icons-material/CloudQueue";
 
 const useStyles = makeStyles({
   currentWeatherBox: {
@@ -22,9 +21,7 @@ const CurrentWeather = ({ currentWeather }) => {
         <p className={classes.currentWeatherDay}>
           {getDay(currentWeather.sys.sunrise)}
         </p>
-        <p>
-          {currentWeather.weather[0].description} <CloudQueueIcon />
-        </p>
+        <p>{currentWeather.weather[0].description}</p>
         <p>
           {" "}
           Temperature: {Math.round(currentWeather.main.temp - 273.15)} &#176;C

@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
-import { Grid, IconButton } from "@mui/material";
+import { Grid, IconButton, Link } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
 const useStyles = makeStyles((theme) => ({
@@ -38,9 +38,11 @@ export default function Footer() {
   return (
     <Grid container className={classes.footCtn}>
       <Grid item xs={4} className={classes.footLef}>
-        <IconButton>
-          <GitHubIcon />
-        </IconButton>
+        <Link href="https://www.github.com/yeexing27/weatherly">
+          <IconButton>
+            <GitHubIcon />
+          </IconButton>
+        </Link>
         <p>github.com/yeexing27/weatherly</p>
       </Grid>
       <Grid item xs={4} className={classes.footMid}>

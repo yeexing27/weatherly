@@ -67,7 +67,7 @@ export const fetchAPI = async (
       dataCurrent.coord.lat +
       "&lon=" +
       dataCurrent.coord.lon +
-      "&exclude=hourly,minutely&appid=" +
+      "&exclude=minutely&appid=" +
       API_key;
     const responseDaily = await fetch(dailyWeatherUrl);
     const dataDaily = await responseDaily.json();

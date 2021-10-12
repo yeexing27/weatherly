@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     from: { opacity: 0 },
     to: { opacity: 1 },
   },
+  day: {
+    fontWeight: 700,
+  },
 }));
 
 export default function CompareWeather({ loc2, loc2Cur, loc2Graph, loading2 }) {
@@ -49,8 +52,9 @@ export default function CompareWeather({ loc2, loc2Cur, loc2Graph, loading2 }) {
       </Grid>
       {!loading2 && (
         <Grid item xs={3} className={classes.weatherDetails}>
-          <p>{getDay(loc2Cur.sys.sunrise)}</p>
-          <p> Temperature: {Math.round(loc2Cur.main.temp - 273.15)} &#176;C</p>
+          <p className={classes.day}>{getDay(loc2Cur.sys.sunrise)}</p>
+          <p>{loc2Cur.weather[0].description}</p>
+          <p>Temperature: {Math.round(loc2Cur.main.temp - 273.15)} &#176;C</p>
           <p>Humidity: {loc2Cur.main.humidity}%</p>
           <p>Wind Speed: {loc2Cur.wind.speed}m/s</p>
         </Grid>
