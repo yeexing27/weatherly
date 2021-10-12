@@ -124,7 +124,7 @@ export default function Appbar({
           <Grid item xs={4} className={classes.gridBarStyle}>
             <div className={classes.gridRightStyle}>
               <img src={mapleleaf} alt="logo" className={classes.logo} />
-              <p style={styles.codementor}>Weatherleaf</p>
+              <p style={styles.codementor}>Weatherly</p>
             </div>
           </Grid>
         </Grid>
